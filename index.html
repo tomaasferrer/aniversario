@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Nuestro Primer Año ❤️</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: linear-gradient(135deg, #ff9a9e, #fad0c4);
+      text-align: center;
+      padding: 40px;
+      color: #333;
+    }
+    .card {
+      background: white;
+      border-radius: 15px;
+      padding: 30px;
+      max-width: 400px;
+      margin: auto;
+      box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+    }
+    button {
+      display: block;
+      width: 100%;
+      margin: 10px 0;
+      padding: 12px;
+      border: none;
+      border-radius: 10px;
+      background: #ff6f91;
+      color: white;
+      font-size: 16px;
+      cursor: pointer;
+    }
+    button:hover {
+      background: #ff4f7a;
+    }
+  </style>
+</head>
+<body>
+
+<div class="card">
+  <h2 id="question"></h2>
+  <div id="answers"></div>
+  <p id="score"></p>
+</div>
+
+<script>
+const questions = [
+  {
+    question: "¿Dónde fue nuestra primera cita?",
+    answers: ["En el cine", "En una plaza", "En un bar", "En tu casa"],
+    correct: 1
+  },
+  {
+    question: "¿Quién dijo 'te amo' primero?",
+    answers: ["Vos", "Yo", "Los dos juntos", "Nadie"],
+    correct: 0
+  },
+  {
+    question: "¿Cuál es mi comida favorita?",
+    answers: ["Pizza", "Hamburguesa", "Pasta", "Sushi"],
+    correct: 0
+  }
+];
+
+let current = 0;
+let points = 0;
+
+function loadQuestion() {
+  if (current >= questions.length) {
+    document.querySelector(".card").innerHTML = `
+      <h2>🎉 Terminaste 🎉</h2>
+      <p>Tu puntaje: ${points}/${questions.length}</p>
+      <p>Gracias por este primer año ❤️<br>Te amo más que ayer y menos que mañana.</p>
+    `;
+    return;
+  }
+
+  document.getElementById("question").innerText = questions[current].question;
+  const answersDiv = document.getElementById("answers");
+  answersDiv.innerHTML = "";
+
+  questions[current].answers.forEach((answer, index) => {
+    const btn = document.createElement("button");
+    btn.innerText = answer;
+    btn.onclick = () => {
+      if (index === questions[current].correct) points++;
+      current++;
+      loadQuestion();
+    };
+    answersDiv.appendChild(btn);
+  });
+
+  document.getElementById("score").innerText = `Puntaje: ${points}`;
+}
+
+loadQuestion();
+</script>
+
+</body>
+</html>
