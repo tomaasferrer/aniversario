@@ -1,126 +1,146 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
-  <meta charset="UTF-8">
-  <title>Nuestro Primer Año ❤️</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      background: linear-gradient(135deg, #ff9a9e, #fad0c4);
-      text-align: center;
-      padding: 40px;
-      color: #333;
-    }
-    .card {
-      background: white;
-      border-radius: 15px;
-      padding: 30px;
-      max-width: 400px;
-      margin: auto;
-      box-shadow: 0 10px 20px rgba(0,0,0,0.2);
-    }
-    button {
-      display: block;
-      width: 100%;
-      margin: 10px 0;
-      padding: 12px;
-      border: none;
-      border-radius: 10px;
-      background: #ff6f91;
-      color: white;
-      font-size: 16px;
-      cursor: pointer;
-    }
-    button:hover {
-      background: #ff4f7a;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <title>Nuestro Primer Año ❤️</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #ff9a9e, #fad0c4);
+            text-align: center;
+            padding: 40px;
+            color: #333;
+        }
+
+        .card {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            max-width: 400px;
+            margin: auto;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        button {
+            font-size: 18px;
+            font-weight: bold;
+            padding: 15px;
+            border-radius: 30px;
+            background: #ff4f7a;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        button:hover {
+            background: #ff4f7a;
+        }
+    </style>
 </head>
+
 <body>
 
-<div class="card">
-  <h2 id="question"></h2>
-  <div id="answers"></div>
-  <p id="score"></p>
-</div>
+    <div class="card" id="startScreen">
+        <h2>💖 BIENVENIDA 💖</h2>
+        <p>
+            AL JUEGO DEL PRIMER AÑO<br><br>
+            PARA DESBLOQUEAR EL REGALO<br>
+            TU PUNTUACIÓN DEBERÁ SER<br>
+            MAYOR A <b>5 PUNTOS</b>
+        </p>
 
-<script>
-const questions = [
-  {
-    question: "¿Donde fue nuestra primera cita?",
-    answers: ["Cine", "Bar", "Plaza", "Telo garchando como toros"],
-    correct: 0
-  },
-  {
-    question: "¿Quien dio el primer beso?",
-    answers: ["Nadie", "Yo", "Los dos juntos", "Vos"],
-    correct: 1
-  },
-  {
-    question: "¿A que escuela primaria fui?",
-    answers: ["Aristobulo del Valle", "La Merceded", "Normal 3", "Instituto de los pija grande y gordas y venosas"],
-    correct: 3
-  },
-  {
-    question: "¿Si tuviera que trabajar de que seria?",
-    answers: ["Prostituta", "Narco", "Carpintero", "Jardinero Gay"],
-    correct: 1
-  },
-  {
-    question: "¿Si fuera un animal cual seria?",
-    answers: ["Leon", "Tiburon", "Salchicha", "Jirafa", "Capybara"],
-    correct: 0
-  },
-  {
-    question: "Estamos en una isla desierta ¿que es lo primero que llevo?",
-    answers: ["La compu", "Encendedor", "Joystick", "Consoladores y Gel Intimo", "Porro y papitas"],
-    correct: 4
-  },
-  {
-    question: "¿Si fuera jugador de futbol en que club me gustaria jugar?",
-    answers: ["Chelsea", "Rosario Central", "Real Madrid", "Chacarita"],
-    correct: 3
-  },
-  {
-    question: "Tenes que salvar a uno",
-    answers: ["Salchicha", "Mi pito", "Yo", "UN !BEAGLE!"],
-    correct: 3
-  }
-];
+        <button onclick="startGame()">💖 COMENZAR 💖</button>
+    </div>
 
-let current = 0;
-let points = 0;
+    <div class="card" id="gameScreen" style="display:none;">
+        <h2 id="question"></h2>
+        <div id="answers"></div>
+        <p id="score"></p>
+    </div>
 
-function loadQuestion() {
-  if (current >= questions.length) {
-    document.querySelector(".card").innerHTML = `
+    <script>
+        const questions = [
+            {
+                question: "¿Donde fue nuestra primera cita?",
+                answers: ["Cine", "Bar", "Plaza", "Telo garchando como toros"],
+                correct: 0
+            },
+            {
+                question: "¿Quien dio el primer beso?",
+                answers: ["Nadie", "Yo", "Los dos juntos", "Vos"],
+                correct: 1
+            },
+            {
+                question: "¿A que escuela primaria fui?",
+                answers: ["Aristobulo del Valle", "La Merceded", "Normal 3", "Instituto de los pija grande y gordas y venosas"],
+                correct: 3
+            },
+            {
+                question: "¿Si tuviera que trabajar de que seria?",
+                answers: ["Prostituta", "Narco", "Carpintero", "Jardinero Gay"],
+                correct: 1
+            },
+            {
+                question: "¿Si fuera un animal cual seria?",
+                answers: ["Leon", "Tiburon", "Salchicha", "Jirafa", "Capybara"],
+                correct: 0
+            },
+            {
+                question: "Estamos en una isla desierta ¿que es lo primero que llevo?",
+                answers: ["La compu", "Encendedor", "Joystick", "Consoladores y Gel Intimo", "Porro y papitas"],
+                correct: 4
+            },
+            {
+                question: "¿Si fuera jugador de futbol en que club me gustaria jugar?",
+                answers: ["Chelsea", "Rosario Central", "Real Madrid", "Chacarita"],
+                correct: 3
+            },
+            {
+                question: "Tenes que salvar a uno",
+                answers: ["Salchicha", "Mi pito", "Yo", "UN !BEAGLE!"],
+                correct: 3
+            }
+        ];
+
+        let current = 0;
+        let points = 0;
+
+        function startGame() {
+            document.getElementById("startScreen").style.display = "none";
+            document.getElementById("gameScreen").style.display = "block";
+            loadQuestion();
+        }
+
+        function loadQuestion() {
+            if (current >= questions.length) {
+                document.querySelector(".card").innerHTML = `
       <h2>🎉 Terminaste 🎉</h2>
       <p>Tu puntaje: ${points}/${questions.length}</p>
       <p>Gracias por este primer año ❤️<br>Te amo más que ayer y menos que mañana.</p>
     `;
-    return;
-  }
+                return;
+            }
 
-  document.getElementById("question").innerText = questions[current].question;
-  const answersDiv = document.getElementById("answers");
-  answersDiv.innerHTML = "";
+            document.getElementById("question").innerText = questions[current].question;
+            const answersDiv = document.getElementById("answers");
+            answersDiv.innerHTML = "";
 
-  questions[current].answers.forEach((answer, index) => {
-    const btn = document.createElement("button");
-    btn.innerText = answer;
-    btn.onclick = () => {
-      if (index === questions[current].correct) points++;
-      current++;
-      loadQuestion();
-    };
-    answersDiv.appendChild(btn);
-  });
+            questions[current].answers.forEach((answer, index) => {
+                const btn = document.createElement("button");
+                btn.innerText = answer;
+                btn.onclick = () => {
+                    if (index === questions[current].correct) points++;
+                    current++;
+                    loadQuestion();
+                };
+                answersDiv.appendChild(btn);
+            });
 
-  document.getElementById("score").innerText = `Puntaje: ${points}`;
-}
+            document.getElementById("score").innerText = `Puntaje: ${points}`;
+        }
 
-loadQuestion();
-</script>
+        loadQuestion();
+    </script>
 
 </body>
+
 </html>
