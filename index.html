@@ -39,13 +39,39 @@
             transform: scale(1.1);
             box-shadow: 0 10px 25px rgba(255, 79, 122, 0.6);
         }
+
+        @keyframes heartbeat {
+            0% {
+                transform: scale(1);
+            }
+
+            25% {
+                transform: scale(1.05);
+            }
+
+            50% {
+                transform: scale(1);
+            }
+
+            75% {
+                transform: scale(1.05);
+            }
+
+            100% {
+                transform: scale(1);
+            }
+        }
+
+        button:hover {
+            animation: heartbeat 0.8s infinite;
+        }
     </style>
 </head>
 
 <body>
 
     <div class="card" id="startScreen">
-        <h2>💖 BIENVENIDA 💖</h2>
+        <h2>💖 BIENVENIDA AMOR DE MI VIDA 💖</h2>
         <p>
             AL JUEGO DEL PRIMER AÑO<br><br>
             PARA DESBLOQUEAR EL REGALO<br>
