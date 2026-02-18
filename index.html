@@ -25,6 +25,86 @@
             box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
         }
 
+        body {
+            margin: 0;
+            overflow-x: hidden;
+            font-family: Arial, sans-serif;
+            background: #000;
+        }
+
+        /* LADOS */
+        .side {
+            position: fixed;
+            top: 0;
+            width: 25%;
+            height: 100%;
+            overflow: hidden;
+            z-index: -1;
+        }
+
+        .side img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            filter: brightness(0.6);
+            transition: opacity 1s ease-in-out;
+        }
+
+        .left {
+            left: 0;
+        }
+
+        .right {
+            right: 0;
+        }
+
+        /* CENTRO LIMPIO */
+        .container {
+            position: relative;
+            width: 50%;
+            margin: auto;
+            z-index: 2;
+        }
+
+        /* CORAZONES */
+        .hearts {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            top: 0;
+            left: 0;
+        }
+
+        .heart {
+            position: absolute;
+            color: pink;
+            font-size: 20px;
+            animation: fall linear infinite;
+        }
+
+        @keyframes fall {
+            0% {
+                transform: translateY(-10vh);
+                opacity: 1;
+            }
+
+            100% {
+                transform: translateY(110vh);
+                opacity: 0;
+            }
+        }
+
+        /* RESPONSIVE */
+        @media (max-width: 768px) {
+            .side {
+                width: 20%;
+            }
+
+            .container {
+                width: 60%;
+            }
+        }
 
         /* Botón comenzar */
         .start-btn {
@@ -215,6 +295,15 @@
 </head>
 
 <body>
+    <div class="side left">
+        <img id="leftImg" src="foto1.jpg">
+    </div>
+
+    <div class="side right">
+        <img id="rightImg" src="foto2.jpg">
+    </div>
+
+    <div class="hearts"></div>
 
     <div class="card" id="startScreen">
         <h1 class="titulo">
@@ -243,7 +332,7 @@
         const questions = [
             {
                 question: "¿Donde fue nuestra primera cita?",
-                answers: ["Cine", "Bar", "Plaza", "Telo garchando como toros"],
+                answers: ["Cine", "Bar", "Plaza", "En un Telo garchando como toros"],
                 correct: 0
             },
             {
@@ -385,6 +474,43 @@
 
             document.getElementById("score").innerText = `Puntaje: ${points}`;
         }
+        // LISTA DE FOTOS
+        const photos = [
+            "foto1.jpg",
+            "foto2.jpg",
+            "foto3.jpg",
+            "foto4.jpg",
+            "foto5.jpg",
+            "foto6.jpg",
+            "foto7.jpg"
+        ];
+
+        let index = 0;
+
+        function rotateImages() {
+            index = (index + 1) % photos.length;
+            document.getElementById("leftImg").src = photos[index];
+            document.getElementById("rightImg").src = photos[(index + 1) % photos.length];
+        }
+
+        setInterval(rotateImages, 4000);
+
+        // CORAZONES
+        function createHeart() {
+            const heart = document.createElement("div");
+            heart.classList.add("heart");
+            heart.innerHTML = "💖";
+            heart.style.left = Math.random() * 100 + "vw";
+            heart.style.animationDuration = (Math.random() * 3 + 2) + "s";
+            document.querySelector(".hearts").appendChild(heart);
+
+            setTimeout(() => {
+                heart.remove();
+            }, 5000);
+        }
+
+        setInterval(createHeart, 300);
+
     </script>
 
 </body>
