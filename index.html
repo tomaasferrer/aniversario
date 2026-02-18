@@ -167,6 +167,32 @@
             }
         }
 
+        @keyframes fadeOut {
+            0% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+
+            100% {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+        }
+
+        @keyframes fadeIn {
+            0% {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+
+
 
         /* -------- CORAZON GRANDE CENTRAL -------- */
 
@@ -331,72 +357,90 @@
         }
 
         function loadQuestion() {
-            if (current >= questions.length) {
-                document.getElementById("gameScreen").innerHTML = `
-        <h2>🎉 Terminaste 🎉</h2>
-        <p>Tu puntaje: ${points}/${questions.length}</p>
-        <p>Gracias por este primer año ❤️<br>Te amo más que ayer y menos que mañana.</p>
-        <br>
-        <button class="start-btn" onclick="goToMenu()">VOLVER A EMPEZAR</button>
-        `;
-                return;
-            }
 
-            document.getElementById("question").innerText = questions[current].question;
-            const answersDiv = document.getElementById("answers");
-            answersDiv.innerHTML = "";
+            const gameCard = document.getElementById("gameScreen");
 
-            questions[current].answers.forEach((answer, index) => {
-                const btn = document.createElement("button");
-                btn.classList.add("answer-btn");
-                btn.innerText = answer;
+            // Animación de salida
+            gameCard.style.animation = "fadeOut 0.3s ease";
 
-                btn.onclick = () => {
+            setTimeout(() => {
 
-                    const effect = document.getElementById("emoji");
+                if (current >= questions.length) {
+                    gameCard.innerHTML = `
+                <h2>🎉 Terminaste 🎉</h2>
+                <p>Tu puntaje: ${points}/${questions.length}</p>
+                <p>Gracias por este primer año ❤️<br>Te amo más que ayer y menos que mañana.</p>
+                <br>
+                <button class="start-btn" onclick="goToMenu()">VOLVER A EMPEZAR</button>
+            `;
+                    gameCard.style.animation = "fadeIn 0.4s ease";
+                    return;
+                }
 
+                document.getElementById("question").innerText = questions[current].question;
+                const answersDiv = document.getElementById("answers");
+                answersDiv.innerHTML = "";
 
-                    // Reset animación
-                    effect.style.animation = "none";
-                    effect.style.opacity = "1";
-                    void effect.offsetWidth;
+                questions[current].answers.forEach((answer, index) => {
 
-                    if (index === questions[current].correct) {
+                    const btn = document.createElement("button");
+                    btn.classList.add("answer-btn");
+                    btn.innerText = answer;
 
-                        points++;
+                    btn.onclick = () => {
 
-                        effect.innerHTML = "💖";
-                        effect.style.fontSize = "90px";
-                        effect.style.animation = "heartPop 0.8s ease";
+                        // BLOQUEAR TODOS LOS BOTONES
+                        const allButtons = document.querySelectorAll(".answer-btn");
+                        allButtons.forEach(button => {
+                            button.disabled = true;
+                            button.style.opacity = "0.6";
+                            button.style.cursor = "not-allowed";
+                        });
 
-                    } else {
+                        // Reset animación emoji
+                        effect.style.animation = "none";
+                        effect.style.opacity = "1";
+                        void effect.offsetWidth;
 
-                        effect.innerHTML = "💩";
-                        effect.style.fontSize = "120px";
-                        effect.style.animation = "poopBounce 1s ease";
+                        if (index === questions[current].correct) {
 
-                        if (navigator.vibrate) {
-                            navigator.vibrate([200, 100, 200]);
+                            points++;
+
+                            effect.innerHTML = "💖";
+                            effect.style.fontSize = "90px";
+                            effect.style.animation = "heartPop 0.8s ease";
+
+                        } else {
+
+                            effect.innerHTML = "💩";
+                            effect.style.fontSize = "120px";
+                            effect.style.animation = "poopBounce 1s ease";
+
+                            if (navigator.vibrate) {
+                                navigator.vibrate([200, 100, 200]);
+                            }
                         }
-                    }
 
-                    // 👇 Cuando termina la animación, se oculta solo
-                    effect.onanimationend = () => {
-                        effect.style.opacity = "0";
-                        effect.innerHTML = "";
+                        effect.onanimationend = () => {
+                            effect.style.opacity = "0";
+                            effect.innerHTML = "";
+                        };
+
+                        setTimeout(() => {
+                            current++;
+                            loadQuestion();
+                        }, 900);
                     };
 
-                    setTimeout(() => {
-                        current++;
-                        loadQuestion();
-                    }, 900);
-                };
+                    answersDiv.appendChild(btn);
+                });
 
+                document.getElementById("score").innerText = `Puntaje: ${points}`;
 
-                answersDiv.appendChild(btn);
-            });
+                // Animación de entrada
+                gameCard.style.animation = "fadeIn 0.4s ease";
 
-            document.getElementById("score").innerText = `Puntaje: ${points}`;
+            }, 300);
         }
 
         /* ROTACION FOTOS */
