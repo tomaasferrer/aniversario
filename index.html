@@ -60,6 +60,12 @@
             width: 90%;
             max-width: 500px;
             box-shadow: 0 15px 30px rgba(0, 0, 0, 0.25);
+            animation: floating 4s ease-in-out infinite;
+
+        }
+
+        .card p {
+            text-align: center;
         }
 
 
@@ -146,6 +152,21 @@
                 opacity: 0;
             }
         }
+
+        @keyframes floating {
+            0% {
+                transform: translateY(0px);
+            }
+
+            50% {
+                transform: translateY(-12px);
+            }
+
+            100% {
+                transform: translateY(0px);
+            }
+        }
+
 
         /* -------- CORAZON GRANDE CENTRAL -------- */
 
@@ -342,6 +363,8 @@
 
                         effect.innerHTML = "💖";
                         effect.style.fontSize = "90px";
+                        effect.style.animation = "none";
+                        void effect.offsetWidth;
                         effect.style.animation = "heartPop 0.8s ease";
                         effect.style.opacity = "1";
 
@@ -358,9 +381,16 @@
                     }
 
                     setTimeout(() => {
+
+                        effect.style.opacity = "0";
+                        effect.style.animation = "none"; // resetea animación
+                        effect.innerHTML = ""; // limpia el emoji
+
                         current++;
                         loadQuestion();
+
                     }, 1000);
+
 
                 };
 
