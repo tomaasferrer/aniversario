@@ -389,8 +389,9 @@
 
                     btn.onclick = () => {
 
-                        // BLOQUEAR TODOS LOS BOTONES
-                        const allButtons = document.querySelectorAll(".answer-btn");
+                        const answersDiv = document.getElementById("answers");
+                        const allButtons = answersDiv.querySelectorAll(".answer-btn");
+
                         allButtons.forEach(button => {
                             button.disabled = true;
                             button.style.opacity = "0.6";
