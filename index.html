@@ -177,7 +177,7 @@
         /* -------- CORAZON GRANDE CENTRAL -------- */
 
         #heartEffect {
-            position: fixed;
+            position: absolute;
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
@@ -189,21 +189,21 @@
 
         @keyframes heartPop {
             0% {
-                transform: translate(-50%, -50%) scale(0.5);
+                transform: scale(0);
                 opacity: 0;
             }
 
             50% {
-                transform: translate(-50%, -50%) scale(1.3);
+                transform: scale(1.3);
                 opacity: 1;
             }
 
             100% {
-                transform: translate(-50%, -50%) scale(2);
+                transform: scale(1);
                 opacity: 0;
             }
-
         }
+
 
         @keyframes poopBounce {
             0% {
@@ -265,7 +265,7 @@
     <div id="heartEffect"></div>
 
     <div class="card" id="startScreen">
-        <h1 class="titulo">💖 BIENVENIDA AMOR DE MI VIDA 💖</h1>
+        <h1 class="titulo">💖 BIENVENIDA 💖 AMOR DE MI VIDA</h1>
         <p>
             AL JUEGO DEL PRIMER AÑO<br>
             PARA DESBLOQUEAR EL REGALO<br>
