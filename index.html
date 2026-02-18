@@ -181,12 +181,13 @@
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            opacity: 0;
             pointer-events: none;
             z-index: 9999;
         }
 
-
+        #emoji {
+            opacity: 0;
+        }
 
         @keyframes heartPop {
             0% {
@@ -255,7 +256,10 @@
     </div>
 
     <div class="hearts"></div>
-    <div id="heartEffect"></div>
+    <div id="heartEffect">
+        <div id="emoji"></div>
+    </div>
+
 
     <div class="card" id="startScreen">
         <h1 class="titulo">💖 BIENVENIDA 💖 AMOR DE MI VIDA</h1>
@@ -354,7 +358,8 @@
 
                 btn.onclick = () => {
 
-                    const effect = document.getElementById("heartEffect");
+                    const effect = document.getElementById("emoji");
+
 
                     // Reset animación
                     effect.style.animation = "none";
