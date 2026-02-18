@@ -358,12 +358,10 @@
                     }
 
                     setTimeout(() => {
-                        effect.style.opacity = "0";
-                        effect.style.animation = "";
+                        current++;
+                        loadQuestion();
                     }, 1000);
 
-                    current++;
-                    setTimeout(loadQuestion, 400);
                 };
 
                 answersDiv.appendChild(btn);
