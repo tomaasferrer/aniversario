@@ -360,7 +360,6 @@
 
             const gameCard = document.getElementById("gameScreen");
 
-            // Animación de salida
             gameCard.style.animation = "fadeOut 0.3s ease";
 
             setTimeout(() => {
@@ -377,7 +376,9 @@
                     return;
                 }
 
-                document.getElementById("question").innerText = questions[current].question;
+                document.getElementById("question").innerText =
+                    questions[current].question;
+
                 const answersDiv = document.getElementById("answers");
                 answersDiv.innerHTML = "";
 
@@ -389,35 +390,32 @@
 
                     btn.onclick = () => {
 
-                        const answersDiv = document.getElementById("answers");
-                        const questionDiv = document.getElementById("question");
-
                         // Bloquear botones
                         const allButtons = answersDiv.querySelectorAll(".answer-btn");
                         allButtons.forEach(button => {
                             button.disabled = true;
                             button.style.opacity = "0.6";
-                            button.style.cursor = "not-allowed";
                         });
 
-                        // 🔥 LIMPIAMOS INMEDIATAMENTE (evita el flash)
-                        questionDiv.innerHTML = "";
-                        answersDiv.innerHTML = "";
-
-                        // Mostrar emoji
-                        showEmoji(option.isCorrect);
+                        // ✅ Verificar respuesta correcta
+                        if (index === questions[current].correct) {
+                            points++;
+                            showEmoji(true);
+                        } else {
+                            showEmoji(false);
+                        }
 
                         setTimeout(() => {
                             current++;
                             loadQuestion();
                         }, 900);
                     };
+
                     answersDiv.appendChild(btn);
                 });
 
                 document.getElementById("score").innerText = `Puntaje: ${points}`;
 
-                // Animación de entrada
                 gameCard.style.animation = "fadeIn 0.4s ease";
 
             }, 300);
