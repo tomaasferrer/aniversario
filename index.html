@@ -392,13 +392,16 @@
                         const answersDiv = document.getElementById("answers");
                         const allButtons = answersDiv.querySelectorAll(".answer-btn");
 
+                        // 🔒 Bloquear botones
                         allButtons.forEach(button => {
                             button.disabled = true;
                             button.style.opacity = "0.6";
                             button.style.cursor = "not-allowed";
                         });
 
-                        // Reset animación emoji
+                        const effect = document.getElementById("emoji");
+
+                        // Reset animación
                         effect.style.animation = "none";
                         effect.style.opacity = "1";
                         void effect.offsetWidth;
@@ -422,17 +425,15 @@
                             }
                         }
 
+                        // 👇 Cuando termina la animación del emoji
                         effect.onanimationend = () => {
                             effect.style.opacity = "0";
                             effect.innerHTML = "";
-                        };
 
-                        setTimeout(() => {
                             current++;
-                            loadQuestion();
-                        }, 900);
+                            loadQuestion(); // avanzar recién acá
+                        };
                     };
-
                     answersDiv.appendChild(btn);
                 });
 
