@@ -438,6 +438,32 @@
         }
 
         setInterval(createHeart, 300);
+
+        function showEmoji(isCorrect) {
+
+            const emojiDiv = document.getElementById("emoji");
+
+            if (isCorrect) {
+                emojiDiv.innerHTML = "💖";
+                emojiDiv.style.fontSize = "120px";
+                emojiDiv.style.animation = "heartPop 0.6s ease";
+            } else {
+                emojiDiv.innerHTML = "💩";
+                emojiDiv.style.fontSize = "120px";
+                emojiDiv.style.animation = "poopBounce 0.6s ease";
+            }
+
+            emojiDiv.style.opacity = "1";
+
+            setTimeout(() => {
+                emojiDiv.style.opacity = "0";
+                emojiDiv.style.animation = "";
+            }, 800);
+        }
+
+        window.onerror = function (message) {
+            console.log("Error detectado:", message);
+        };
     </script>
 
 </body>
