@@ -308,13 +308,25 @@
 
 
     <div class="card" id="startScreen">
+
+        <div class="card" id="instructionsScreen" style="display:none;">
+            <h2>📜 Instrucciones 📜</h2>
+            <p>
+                💖 Vas a responder preguntas sobre nosotros<br><br>
+                💖 Solo podés elegir una respuesta<br><br>
+                💖 Si acertás, ganás 1 punto<br><br>
+                💖 Necesitás más de <b>5 puntos</b> para desbloquear el regalo 🎁
+            </p>
+            <button class="start-btn" onclick="beginGame()">💘 ENTENDIDO 💘</button>
+        </div>
+
         <h1 class="titulo">💖 BIENVENIDA 💖</h1>
         <h2 class="subtitulo">💖 AMOR DE MI VIDA 💖</h2>
         <p>
             AL JUEGO DEL PRIMER AÑO<br>
             PARA DESBLOQUEAR EL REGALO<br>
             TU PUNTUACIÓN DEBERÁ SER<br>
-            MAYOR A <b>5 PUNTOS</b>
+            MAYOR A <b>7 PUNTOS</b>
         </p>
         <button class="start-btn" onclick="startGame()">💖 COMENZAR 💖</button>
     </div>
@@ -394,6 +406,12 @@
 
         function startGame() {
             document.getElementById("startScreen").style.display = "none";
+            document.getElementById("instructionsScreen").style.display = "block";
+            const card = document.getElementById("instructionsScreen");
+            card.classList.add("question-transition");
+        }
+        function beginGame() {
+            document.getElementById("instructionsScreen").style.display = "none";
             document.getElementById("gameScreen").style.display = "block";
             loadQuestion();
         }
