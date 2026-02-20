@@ -390,49 +390,27 @@
                     btn.onclick = () => {
 
                         const answersDiv = document.getElementById("answers");
-                        const allButtons = answersDiv.querySelectorAll(".answer-btn");
+                        const questionDiv = document.getElementById("question");
 
-                        // 🔒 Bloquear botones
+                        // Bloquear botones
+                        const allButtons = answersDiv.querySelectorAll(".answer-btn");
                         allButtons.forEach(button => {
                             button.disabled = true;
                             button.style.opacity = "0.6";
                             button.style.cursor = "not-allowed";
                         });
 
-                        const effect = document.getElementById("emoji");
+                        // 🔥 LIMPIAMOS INMEDIATAMENTE (evita el flash)
+                        questionDiv.innerHTML = "";
+                        answersDiv.innerHTML = "";
 
-                        // Reset animación
-                        effect.style.animation = "none";
-                        effect.style.opacity = "1";
-                        void effect.offsetWidth;
+                        // Mostrar emoji
+                        showEmoji(option.isCorrect);
 
-                        if (index === questions[current].correct) {
-
-                            points++;
-
-                            effect.innerHTML = "💖";
-                            effect.style.fontSize = "90px";
-                            effect.style.animation = "heartPop 0.8s ease";
-
-                        } else {
-
-                            effect.innerHTML = "💩";
-                            effect.style.fontSize = "120px";
-                            effect.style.animation = "poopBounce 1s ease";
-
-                            if (navigator.vibrate) {
-                                navigator.vibrate([200, 100, 200]);
-                            }
-                        }
-
-                        // 👇 Cuando termina la animación del emoji
-                        effect.onanimationend = () => {
-                            effect.style.opacity = "0";
-                            effect.innerHTML = "";
-
+                        setTimeout(() => {
                             current++;
-                            loadQuestion(); // avanzar recién acá
-                        };
+                            loadQuestion();
+                        }, 900);
                     };
                     answersDiv.appendChild(btn);
                 });
