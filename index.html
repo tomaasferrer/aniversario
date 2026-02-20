@@ -360,65 +360,49 @@
 
             const gameCard = document.getElementById("gameScreen");
 
-            gameCard.style.animation = "fadeOut 0.3s ease";
+            if (current >= questions.length) {
+                gameCard.innerHTML = `
+            <h2>🎉 Terminaste 🎉</h2>
+            <p>Tu puntaje: ${points}/${questions.length}</p>
+            <button class="start-btn" onclick="goToMenu()">VOLVER A EMPEZAR</button>
+        `;
+                return;
+            }
 
-            setTimeout(() => {
+            document.getElementById("question").innerText =
+                questions[current].question;
 
-                if (current >= questions.length) {
-                    gameCard.innerHTML = `
-                <h2>🎉 Terminaste 🎉</h2>
-                <p>Tu puntaje: ${points}/${questions.length}</p>
-                <p>Gracias por este primer año ❤️<br>Te amo más que ayer y menos que mañana.</p>
-                <br>
-                <button class="start-btn" onclick="goToMenu()">VOLVER A EMPEZAR</button>
-            `;
-                    gameCard.style.animation = "fadeIn 0.4s ease";
-                    return;
-                }
+            const answersDiv = document.getElementById("answers");
+            answersDiv.innerHTML = "";
 
-                document.getElementById("question").innerText =
-                    questions[current].question;
+            questions[current].answers.forEach((answer, index) => {
 
-                const answersDiv = document.getElementById("answers");
-                answersDiv.innerHTML = "";
+                const btn = document.createElement("button");
+                btn.classList.add("answer-btn");
+                btn.innerText = answer;
 
-                questions[current].answers.forEach((answer, index) => {
+                btn.onclick = () => {
 
-                    const btn = document.createElement("button");
-                    btn.classList.add("answer-btn");
-                    btn.innerText = answer;
+                    const allButtons = answersDiv.querySelectorAll(".answer-btn");
+                    allButtons.forEach(button => button.disabled = true);
 
-                    btn.onclick = () => {
+                    if (index === questions[current].correct) {
+                        points++;
+                        showEmoji(true);
+                    } else {
+                        showEmoji(false);
+                    }
 
-                        // Bloquear botones
-                        const allButtons = answersDiv.querySelectorAll(".answer-btn");
-                        allButtons.forEach(button => {
-                            button.disabled = true;
-                            button.style.opacity = "0.6";
-                        });
+                    setTimeout(() => {
+                        current++;
+                        loadQuestion();
+                    }, 900);
+                };
 
-                        // ✅ Verificar respuesta correcta
-                        if (index === questions[current].correct) {
-                            points++;
-                            showEmoji(true);
-                        } else {
-                            showEmoji(false);
-                        }
+                answersDiv.appendChild(btn);
+            });
 
-                        setTimeout(() => {
-                            current++;
-                            loadQuestion();
-                        }, 900);
-                    };
-
-                    answersDiv.appendChild(btn);
-                });
-
-                document.getElementById("score").innerText = `Puntaje: ${points}`;
-
-                gameCard.style.animation = "fadeIn 0.4s ease";
-
-            }, 300);
+            document.getElementById("score").innerText = `Puntaje: ${points}`;
         }
 
         /* ROTACION FOTOS */
