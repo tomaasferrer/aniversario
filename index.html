@@ -121,6 +121,20 @@
             animation: buttonFade 0.4s ease forwards;
         }
 
+        .dark-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.55);
+            backdrop-filter: blur(3px);
+            z-index: 1;
+            opacity: 0;
+            transition: opacity 0.6s ease;
+        }
+
+        .dark-overlay.show {
+            opacity: 1;
+        }
+
         .answer-btn:active {
             transform: scale(0.95);
         }
@@ -141,6 +155,17 @@
             position: absolute;
             font-size: 20px;
             animation: fall linear forwards;
+        }
+
+        .line {
+            opacity: 0;
+            transform: translateY(15px);
+            transition: 0.6s ease;
+        }
+
+        .line.show {
+            opacity: 1;
+            transform: translateY(0);
         }
 
         @keyframes buttonFade {
@@ -233,7 +258,23 @@
             }
         }
 
+        .romantic-pop {
+            animation: romanticPop 0.5s ease;
+        }
 
+        @keyframes romanticPop {
+            0% {
+                transform: scale(1);
+            }
+
+            50% {
+                transform: scale(1.2);
+            }
+
+            100% {
+                transform: scale(1);
+            }
+        }
 
         @keyframes poopBounce {
             0% {
@@ -302,6 +343,7 @@
     </div>
 
     <div class="hearts"></div>
+    <div class="dark-overlay" id="overlay"></div>
     <div id="heartEffect">
         <div id="emoji"></div>
     </div>
@@ -322,15 +364,12 @@
 
     <div class="card" id="instructionsScreen" style="display:none;">
         <h2>📜 Instrucciones 📜</h2>
-        <p>
-            💖 Vas a responder preguntas sobre nosotros<br><br>
-            💖 Solo podés elegir una respuesta<br><br>
-            💖 Si acertás, ganás 1 punto<br><br>
-            💖 Va haber preguntas que las respuestas pueden ser troll o verdaderas<br><br>
-            💖 Si me conoces sabras las respuesta<br><br>
-            💖 Necesitás más de <b>7 puntos</b> para desbloquear el regalo 🎁
-        </p>
-        <button class="start-btn" onclick="beginGame()">💘 ENTENDIDO 💘</button>
+
+        <div id="storyText"></div>
+
+        <button class="start-btn" id="understoodBtn" onclick="beginGame()" style="display:none;">
+            💘 ENTENDIDO 💘
+        </button>
     </div>
 
     <div class="card" id="gameScreen" style="display:none;">
@@ -408,14 +447,27 @@
 
         function startGame() {
             document.getElementById("startScreen").style.display = "none";
-            document.getElementById("instructionsScreen").style.display = "block";
-            const card = document.getElementById("instructionsScreen");
-            card.classList.add("question-transition");
+
+            const overlay = document.getElementById("overlay");
+            const instructions = document.getElementById("instructionsScreen");
+
+            overlay.classList.add("show");
+            instructions.style.display = "block";
+
+            typeWriterEffect();
         }
+
         function beginGame() {
-            document.getElementById("instructionsScreen").style.display = "none";
-            document.getElementById("gameScreen").style.display = "block";
-            loadQuestion();
+
+            const overlay = document.getElementById("overlay");
+
+            overlay.classList.remove("show");
+
+            setTimeout(() => {
+                document.getElementById("instructionsScreen").style.display = "none";
+                document.getElementById("gameScreen").style.display = "block";
+                loadQuestion();
+            }, 400);
         }
 
         function goToMenu() {
@@ -482,6 +534,50 @@
 
             document.getElementById("score").innerText = `Puntaje: ${points}`;
         }
+        const storyLines = [
+            "💖 Vas a responder preguntas sobre nosotros...",
+            "💖 Solo podés elegir una respuesta...",
+            "💖 Si acertás, ganás 1 punto...",
+            "💖 Va haber preguntas que las respuestas pueden ser troll o verdaderas...",
+            "💖 Si me conoces sabras las respuesta...",
+            "💖 Necesitás más de 7 puntos para desbloquear el regalo 🎁..."
+        ];
+
+        function typeWriterEffect() {
+
+            const container = document.getElementById("storyText");
+            const btn = document.getElementById("understoodBtn");
+
+            container.innerHTML = "";
+            let lineIndex = 0;
+
+            function writeLine() {
+
+                if (lineIndex >= storyLines.length) {
+                    btn.style.display = "inline-block";
+                    return;
+                }
+
+                const p = document.createElement("p");
+                container.appendChild(p);
+
+                let charIndex = 0;
+                const text = storyLines[lineIndex];
+
+                const interval = setInterval(() => {
+                    p.textContent += text.charAt(charIndex);
+                    charIndex++;
+
+                    if (charIndex >= text.length) {
+                        clearInterval(interval);
+                        lineIndex++;
+                        setTimeout(writeLine, 500);
+                    }
+                }, 35);
+            }
+
+            writeLine();
+        }
 
         /* ROTACION FOTOS */
         const photos = [
@@ -537,6 +633,16 @@
                 emojiDiv.style.opacity = "0";
                 emojiDiv.style.animation = "";
             }, 800);
+        }
+
+        function animateInstructions() {
+            const lines = document.querySelectorAll("#storyText .line");
+
+            lines.forEach((line, index) => {
+                setTimeout(() => {
+                    line.classList.add("show");
+                }, index * 700);
+            });
         }
 
         window.onerror = function (message) {
