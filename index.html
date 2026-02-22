@@ -4,6 +4,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#ff4f7a">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="mobile-web-app-capable" content="yes">
     <title>Nuestro Primer Año ❤️</title>
 
     <style>
@@ -37,6 +40,7 @@
             width: 100%;
             height: 100%;
             object-fit: cover;
+            object-position: center;
             filter: brightness(0.7);
             transition: opacity 1s ease-in-out;
         }
@@ -298,19 +302,22 @@
 
         /* -------- RESPONSIVE -------- */
 
-        @media(max-width:900px) {
-            .side {
-                width: 25%;
-            }
-        }
-
         @media(max-width:600px) {
+
+            body {
+                padding: 15px;
+            }
+
             .side {
-                width: 20%;
+                display: none;
+                /* Oculta laterales en celular */
             }
 
             .card {
-                margin: 40px auto;
+                width: 100%;
+                max-width: 420px;
+                border-radius: 25px;
+                padding: 25px;
             }
         }
 
@@ -327,6 +334,40 @@
             100% {
                 opacity: 1;
                 transform: translateY(0) scale(1);
+            }
+        }
+
+        /* -------- SWIPE TRANSITION -------- */
+
+        .swipe-out {
+            animation: swipeOut 0.35s ease forwards;
+        }
+
+        .swipe-in {
+            animation: swipeIn 0.35s ease forwards;
+        }
+
+        @keyframes swipeOut {
+            0% {
+                opacity: 1;
+                transform: translateX(0);
+            }
+
+            100% {
+                opacity: 0;
+                transform: translateX(-40px);
+            }
+        }
+
+        @keyframes swipeIn {
+            0% {
+                opacity: 0;
+                transform: translateX(40px);
+            }
+
+            100% {
+                opacity: 1;
+                transform: translateX(0);
             }
         }
     </style>
@@ -445,7 +486,21 @@
         let current = 0;
         let points = 0;
 
+        function enterFullscreen() {
+
+            const elem = document.documentElement;
+
+            if (elem.requestFullscreen) {
+                elem.requestFullscreen();
+            } else if (elem.webkitRequestFullscreen) {
+                elem.webkitRequestFullscreen();
+            }
+        }
+
         function startGame() {
+
+            enterFullscreen(); // 🔥 pantalla completa
+
             document.getElementById("startScreen").style.display = "none";
 
             const overlay = document.getElementById("overlay");
@@ -487,10 +542,14 @@
                 return;
             }
 
-            // 🔥 Animación suave al cambiar
-            gameCard.classList.remove("question-transition");
-            void gameCard.offsetWidth;
-            gameCard.classList.add("question-transition");
+            // 🔥 Swipe transition
+            gameCard.classList.remove("swipe-in");
+            gameCard.classList.add("swipe-out");
+
+            setTimeout(() => {
+                gameCard.classList.remove("swipe-out");
+                gameCard.classList.add("swipe-in");
+            }, 200);
 
             document.getElementById("question").innerText =
                 questions[current].question;
