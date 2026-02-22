@@ -7,6 +7,10 @@
     <meta name="theme-color" content="#ff4f7a">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="mobile-web-app-capable" content="yes">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap" rel="stylesheet">
+
     <title>Nuestro Primer Año ❤️</title>
 
     <style>
@@ -75,10 +79,8 @@
 
         /* -------- TITULOS -------- */
 
-        @import url('https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap');
-
         .titulo {
-            font-family: 'Great Vibes', cursive;
+            font-family: 'Great Vibes', cursive, sans-serif;
             font-size: 42px;
             margin-bottom: 15px;
             text-shadow: 0 0 10px rgba(255, 79, 122, 0.5);
@@ -542,14 +544,16 @@
                 return;
             }
 
-            // 🔥 Swipe transition
+            // 🔥 Swipe transition limpio
             gameCard.classList.remove("swipe-in");
             gameCard.classList.add("swipe-out");
 
-            setTimeout(() => {
-                gameCard.classList.remove("swipe-out");
-                gameCard.classList.add("swipe-in");
-            }, 200);
+            requestAnimationFrame(() => {
+                requestAnimationFrame(() => {
+                    gameCard.classList.remove("swipe-out");
+                    gameCard.classList.add("swipe-in");
+                });
+            });
 
             document.getElementById("question").innerText =
                 questions[current].question;
